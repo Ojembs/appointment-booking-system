@@ -1,3 +1,5 @@
 from django.contrib import admin
+from specialists.models import Specialist, Availability
 
-# Register your models here.
+admin.site.register(Specialist)
+admin.site.register(Availability)
