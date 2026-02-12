@@ -1,0 +1,41 @@
+
+# booking system
+- patients book appointments
+
+Patient sees list of specialists
+Patient clicks a specialist
+Patient sees Specialist's availability calendar
+Patient selects a time on Specialist's calendar
+Patient sees success page
+
+
+Specialist sees list of bookings
+
+
+Patient {
+    bookings: Booking[]
+}
+
+Specialist {
+    bookings: Booking[]
+}
+
+Booking {
+    patientId: Patient.id,
+    specialistId: Specialist.id
+}
+
+POST /register
+POST /login
+
+GET /specialists
+GET /specialists/:id
+POST /specialists (optional)
+
+GET /specialists/:id/calendar
+POST /specialists/:id/calendar || Could also be POST /bookings
+    - validate that payload.time is actually available
+    - 200 
+    - return Booking
+
+GET /bookings
