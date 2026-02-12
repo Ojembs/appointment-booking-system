@@ -12,30 +12,128 @@ Patient sees success page
 Specialist sees list of bookings
 
 
+MODELS
+
+User {
+    id
+    username
+    email
+    password
+    role: "patient" | "specialist"
+    createdAt
+}
+
+
 Patient {
+    id
+    userId: User.id (OneToOne)
+    createdAt
+
+    # derived / reverse
     bookings: Booking[]
 }
+
 
 Specialist {
+    id
+    userId: User.id (OneToOne)
+    specialty
+    bio
+    createdAt
+
+    # derived / reverse
     bookings: Booking[]
+    availabilities: Availability[]
 }
+
+
+Availability {
+    id
+    specialistId: Specialist.id
+    weekday: 0-6 (Mon-Sun)
+    startTime
+    endTime
+}
+
 
 Booking {
-    patientId: Patient.id,
+    id
+    patientId: Patient.id
     specialistId: Specialist.id
+
+    startTime
+    endTime
+
+    status: "pending" | "confirmed" | "cancelled"
+
+    createdAt
 }
 
+
+
+
+API
+
+AUTH
+
 POST /register
+    body:
+    {
+        username,
+        email,
+        password,
+        role
+    }
+
 POST /login
+    body:
+    {
+        email,
+        password
+    }
+
+
+
+SPECIALISTS
 
 GET /specialists
+    - returns list of specialists
+
 GET /specialists/:id
-POST /specialists (optional)
+    - returns specialist details
 
-GET /specialists/:id/calendar
-POST /specialists/:id/calendar || Could also be POST /bookings
-    - validate that payload.time is actually available
-    - 200 
-    - return Booking
+POST /specialists (optional / admin only)
+    - create specialist profile
 
-GET /bookings
+
+CALENDAR
+
+GET /specialists/:id/calendar?date=YYYY-MM-DD
+    - returns available time slots for that date
+    - removes the times already booked
+
+Response:
+{
+    date,
+    availableSlots: []
+}
+
+
+
+BOOKING
+
+POST /bookings
+    body:
+    {
+        specialistId,
+        startTime,
+        endTime
+    }
+
+    - validate specialist exists
+    - validate patient role
+    - validate time inside availability
+    - validate no overlapping booking
+
+    200:
+    return Booking
