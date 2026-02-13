@@ -22,18 +22,6 @@ A Django-based appointment booking system that allows patients to book appointme
 - **Patients**: Browse specialists, book appointments, view their bookings
 - **Specialists**: View their bookings, manage availability, confirm/cancel appointments
 
-## Project Structure
-
-```
-appointmentbookinghub/
-├── config/                 # Django project settings
-├── accounts/              # User authentication and profiles
-├── patients/              # Patient-specific models and views
-├── specialists/           # Specialist profiles and availability
-├── bookings/              # Appointment booking system
-└── dashboard/             # User dashboards
-```
-
 ## Quick Start
 
 ### 1. Clone and Setup
