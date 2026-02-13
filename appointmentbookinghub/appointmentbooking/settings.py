@@ -37,10 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'patients',
-    'specialists',
-    'accounts',
-    'bookings'
+    "accounts.apps.AccountsConfig",
+    "patients.apps.PatientsConfig",
+    "specialists.apps.SpecialistsConfig",
+    "bookings",
+    "dashboard"
 ]
 
 MIDDLEWARE = [
@@ -122,5 +123,6 @@ STATIC_URL = 'static/'
 
 
 AUTH_USER_MODEL = "accounts.User"
-
-
+LOGIN_URL = "/auth/login/"
+LOGIN_REDIRECT_URL = "/dashboard/"
+LOGOUT_REDIRECT_URL = "/auth/login/"

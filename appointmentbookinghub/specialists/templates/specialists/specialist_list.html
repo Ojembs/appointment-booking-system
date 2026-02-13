@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen bg-base-200 p-10">
+    <div class="max-w-6xl mx-auto">
+        
+        <div class="navbar bg-base-100 shadow-xl rounded-box mb-6">
+            <div class="navbar-start">
+                <h1 class="text-xl font-bold">Appointment Hub</h1>
+            </div>
+            <div class="navbar-center">
+                <div class="tabs tabs-boxed">
+                    <a class="tab" href="/dashboard/">Dashboard</a>
+                    <a class="tab tab-active">Specialists</a>
+                </div>
+            </div>
+            <div class="navbar-end">
+                <div class="dropdown dropdown-end">
+                    <div tabindex="0" role="button" class="btn btn-ghost">
+                        {{ user.username }}
+                        <div class="badge badge-sm badge-outline">{{ user.role }}</div>
+                    </div>
+                    <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h1 class="text-3xl font-bold text-base-content">Find a Specialist</h1>
+                <p class="text-base-content/60 mt-2">Browse available specialists and book appointments</p>
+            </div>
+        </div>
+
+        {% if specialists %}
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for specialist in specialists %}
+                <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
+                    <div class="card-body">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="avatar placeholder">
+                                <div class="bg-primary text-primary-content rounded-full w-16">
+                                    <span class="text-xl font-bold">
+                                        {{ specialist.user.username|first|upper }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div>
+                                <h2 class="card-title text-lg">{{ specialist.user.username }}</h2>
+                                <div class="badge badge-secondary">{{ specialist.specialty }}</div>
+                            </div>
+                        </div>
+
+                        {% if specialist.bio %}
+                            <p class="text-sm text-base-content/80 mb-4 line-clamp-3">
+                                {{ specialist.bio|truncatewords:20 }}
+                            </p>
+                        {% endif %}
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold mb-2 text-base-content/80">Available Days:</h4>
+                            <div class="flex gap-1 flex-wrap">
+                                {% for availability in specialist.availabilities.all %}
+                                    <div class="badge badge-outline badge-sm">
+                                        {% if availability.weekday == 0 %}Mon
+                                        {% elif availability.weekday == 1 %}Tue  
+                                        {% elif availability.weekday == 2 %}Wed
+                                        {% elif availability.weekday == 3 %}Thu
+                                        {% elif availability.weekday == 4 %}Fri
+                                        {% elif availability.weekday == 5 %}Sat
+                                        {% elif availability.weekday == 6 %}Sun
+                                        {% endif %}
+                                        {{ availability.start_time|time:"g:i A" }}-{{ availability.end_time|time:"g:i A" }}
+                                    </div>
+                                {% empty %}
+                                    <span class="text-xs text-base-content/60">No availability set</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="card-actions justify-end">
+                            <a href="/specialists/{{ specialist.id }}/" 
+                               class="btn btn-primary btn-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                Book Appointment
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body text-center py-16">
+                    <div class="text-6xl mb-4">🩺</div>
+                    <h2 class="text-2xl font-bold mb-2">No Specialists Available</h2>
+                    <p class="text-base-content/60">
+                        There are currently no specialists registered in the system.
+                    </p>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+
+<meta name="csrf-token" content="{{ csrf_token }}">
+{% csrf_token %}
+{% endblock %}

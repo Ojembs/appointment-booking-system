@@ -102,10 +102,6 @@ GET /specialists
 GET /specialists/:id
     - returns specialist details
 
-POST /specialists (optional / admin only)
-    - create specialist profile
-
-
 CALENDAR
 
 GET /specialists/:id/calendar?date=YYYY-MM-DD

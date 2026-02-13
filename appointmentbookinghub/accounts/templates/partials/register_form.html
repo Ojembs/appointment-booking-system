@@ -1,0 +1,43 @@
+<form 
+    hx-post="{% url 'register' %}"
+    hx-target="#register-form"
+    hx-swap="outerHTML"
+    class="card bg-base-100 shadow-xl p-6 space-y-4"
+>
+
+    {% csrf_token %}
+
+    {% if error %}
+        <div class="alert alert-error">{{ error }}</div>
+    {% endif %}
+
+    <input 
+        name="username" 
+        placeholder="Username" 
+        class="input input-bordered w-full" 
+        required
+    >
+
+    <input 
+        name="email" 
+        type="email" 
+        placeholder="Email" 
+        class="input input-bordered w-full" 
+        required
+    >
+
+    <input 
+        name="password" 
+        type="password" 
+        placeholder="Password" 
+        class="input input-bordered w-full" 
+        required
+    >
+
+    <select name="role" class="select select-bordered w-full">
+        <option value="patient">Patient</option>
+        <option value="specialist">Specialist</option>
+    </select>
+
+    <button class="btn btn-primary w-full">Register</button>
+</form>

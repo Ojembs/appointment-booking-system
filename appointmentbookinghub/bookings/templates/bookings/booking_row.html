@@ -1,0 +1,38 @@
+<tr>
+    <td>
+        {% if booking.patient %}
+            <div class="font-bold">{{ booking.patient.user.username }}</div>
+        {% else %}
+            <div>
+                <div class="font-bold">{{ booking.specialist.user.username }}</div>
+                <div class="text-sm opacity-50">{{ booking.specialist.specialty }}</div>
+            </div>
+        {% endif %}
+    </td>
+    <td>{{ booking.start_time|date:"M d, Y" }} at {{ booking.start_time|time:"g:i A" }}</td>
+    <td>
+        <div class="badge {% if booking.status == 'confirmed' %}badge-success{% elif booking.status == 'pending' %}badge-warning{% else %}badge-error{% endif %}">
+            {{ booking.status|title }}
+        </div>
+    </td>
+    <td>
+        {% if booking.status == 'pending' %}
+            <div class="btn-group">
+                {% if user.role == 'specialist' %}
+                    <button class="btn btn-sm btn-success"
+                            hx-post="/bookings/{{ booking.id }}/confirm/"
+                            hx-target="closest tr"
+                            hx-swap="outerHTML">
+                        Confirm
+                    </button>
+                {% endif %}
+                <button class="btn btn-sm btn-error"
+                        hx-post="/bookings/{{ booking.id }}/cancel/"
+                        hx-target="closest tr"
+                        hx-swap="outerHTML">
+                    Cancel
+                </button>
+            </div>
+        {% endif %}
+    </td>
+</tr>

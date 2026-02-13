@@ -1,0 +1,54 @@
+<div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+        <h3 class="card-title text-primary mb-4">Confirm Your Appointment</h3>
+        
+        <div class="space-y-3 mb-6">
+            <div class="flex justify-between items-center">
+                <span class="text-gray-600">Specialist:</span>
+                <span class="font-semibold">Dr. {{ specialist.user.first_name }} {{ specialist.user.last_name }}</span>
+            </div>
+            
+            <div class="flex justify-between items-center">
+                <span class="text-gray-600">Specialty:</span>
+                <span>{{ specialist.specialty }}</span>
+            </div>
+            
+            <div class="flex justify-between items-center">
+                <span class="text-gray-600">Date:</span>
+                <span class="font-semibold">{{ start_time|date:"F j, Y" }}</span>
+            </div>
+            
+            <div class="flex justify-between items-center">
+                <span class="text-gray-600">Time:</span>
+                <span class="font-semibold">{{ start_time|time:"g:i A" }} - {{ end_time|time:"g:i A" }}</span>
+            </div>
+            
+            <div class="flex justify-between items-center">
+                <span class="text-gray-600">Duration:</span>
+                <span>1 hour</span>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="card-actions justify-end gap-3">
+            <button 
+                class="btn btn-outline"
+                onclick="document.getElementById('booking-confirmation').innerHTML = ''">
+                Cancel
+            </button>
+            <button 
+                class="btn btn-primary"
+                hx-post="{% url 'bookings:create' %}"
+                hx-vals='{"specialist_id": {{ specialist.id }}, "start_time": "{{ start_time_iso }}", "end_time": "{{ end_time_iso }}", "csrfmiddlewaretoken": "{{ csrf_token }}"}'
+                hx-target="#booking-result"
+                hx-swap="innerHTML">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                Confirm Booking
+            </button>
+        </div>
+    </div>
+</div>
+

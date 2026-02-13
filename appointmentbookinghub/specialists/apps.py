@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
-
 class SpecialistsConfig(AppConfig):
-    name = 'specialists'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "specialists"
