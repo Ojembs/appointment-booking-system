@@ -7,7 +7,7 @@ urlpatterns = [
     path("login/", login_view, name="login"),
     path(
         "logout/",
-        LogoutView.as_view(next_page="/auth/login/"),
+        LogoutView.as_view(next_page="/auth/login/", redirect_field_name=None),
         name="logout"
     ),
 ]

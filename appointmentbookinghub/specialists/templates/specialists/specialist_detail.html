@@ -23,7 +23,12 @@
                         <div class="badge badge-sm badge-outline">{{ user.role }}</div>
                     </div>
                     <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                        <li>
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="w-full text-left">Logout</button>
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </div>

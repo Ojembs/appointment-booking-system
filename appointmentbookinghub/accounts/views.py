@@ -11,9 +11,9 @@ def register_view(request):
         role = request.POST.get("role")
 
         if User.objects.filter(username=username).exists():
-            return render(request, "./partials/register_form.html", {
-                "error": "Username already exists"
-            })
+            return HttpResponse(
+                '<div class="alert alert-error">Username already exists</div>'
+            )
 
         user = User.objects.create_user(
             username=username,
@@ -44,10 +44,8 @@ def login_view(request):
             response["HX-Redirect"] = "/dashboard/"
             return response
         else:
-            return render(
-                request,
-                "./partials/login_form.html",
-                {"error": "Invalid username or password"},
+            return HttpResponse(
+                '<div class="alert alert-error">Invalid username or password</div>'
             )
 
     return render(request, "login.html")

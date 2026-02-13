@@ -1,15 +1,17 @@
 <form 
     hx-post="{% url 'register' %}"
-    hx-target="#register-form"
-    hx-swap="outerHTML"
+    hx-target="#error-message"
+    hx-swap="innerHTML"
     class="card bg-base-100 shadow-xl p-6 space-y-4"
 >
 
     {% csrf_token %}
 
-    {% if error %}
-        <div class="alert alert-error">{{ error }}</div>
-    {% endif %}
+    <div id="error-message">
+        {% if error %}
+            <div class="alert alert-error">{{ error }}</div>
+        {% endif %}
+    </div>
 
     <input 
         name="username" 

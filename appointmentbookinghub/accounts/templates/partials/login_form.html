@@ -1,18 +1,20 @@
 <form
     hx-post="{% url 'login' %}"
-    hx-target="#login-form"
-    hx-swap="outerHTML"
+    hx-target="#error-message"
+    hx-swap="innerHTML"
     class="card bg-base-100 shadow-xl p-8 space-y-4"
 >
     {% csrf_token %}
 
     <h2 class="text-2xl font-bold text-center">Login</h2>
 
-    {% if error %}
-        <div class="alert alert-error">
-            {{ error }}
-        </div>
-    {% endif %}
+    <div id="error-message">
+        {% if error %}
+            <div class="alert alert-error">
+                {{ error }}
+            </div>
+        {% endif %}
+    </div>
 
     <div class="form-control">
         <label class="label">
@@ -21,6 +23,7 @@
         <input
             type="text"
             name="username"
+            value="{{ username|default:'' }}"
             class="input input-bordered"
             required
         />
@@ -49,3 +52,15 @@
         </a>
     </p>
 </form>
+
+<script>
+// Clear error message when user starts typing
+document.querySelectorAll('input[name="username"], input[name="password"]').forEach(input => {
+    input.addEventListener('input', function() {
+        const errorDiv = document.getElementById('error-message');
+        if (errorDiv) {
+            errorDiv.innerHTML = '';
+        }
+    });
+});
+</script>
