@@ -21,7 +21,13 @@ def dashboard_view(request):
         ).select_related('patient__user').order_by('-start_time')
         context['specialist_bookings'] = specialist_bookings
         
+        # Calculate stats
         pending_count = specialist_bookings.filter(status='pending').count()
+        confirmed_count = specialist_bookings.filter(status='confirmed').count()
+        total_count = specialist_bookings.count()
+        
         context['pending_count'] = pending_count
+        context['confirmed_count'] = confirmed_count
+        context['total_count'] = total_count
 
     return render(request, "dashboard.html", context)

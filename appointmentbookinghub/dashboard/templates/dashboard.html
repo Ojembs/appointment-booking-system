@@ -105,24 +105,45 @@
         {% endif %}
 
         {% if user.role == "specialist" %}
-            <div class="grid lg:grid-cols-4 gap-6">
-                <div class="stats shadow">
+            <div class="grid gap-6">
+                <div class="stats stats-vertical lg:stats-horizontal shadow">
                     <div class="stat">
                         <div class="stat-figure text-warning">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
                         </div>
-                        <div class="stat-title">Pending</div>
+                        <div class="stat-title">Pending Appointments</div>
                         <div class="stat-value text-warning">{{ pending_count }}</div>
                         <div class="stat-desc">Awaiting confirmation</div>
                     </div>
+                    
+                    <div class="stat">
+                        <div class="stat-figure text-success">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div class="stat-title">Confirmed</div>
+                        <div class="stat-value text-success">{{ confirmed_count|default:0 }}</div>
+                        <div class="stat-desc">This week</div>
+                    </div>
+                    
+                    <div class="stat">
+                        <div class="stat-figure text-info">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2v12a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-title">Total Bookings</div>
+                        <div class="stat-value text-info">{{ total_count|default:0 }}</div>
+                        <div class="stat-desc">All time</div>
+                    </div>
                 </div>
 
-                <div class="lg:col-span-3">
-                    <div class="card bg-base-100 shadow-xl">
-                        <div class="card-body">
-                            <h2 class="card-title text-primary">Recent Bookings</h2>
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title text-primary">Recent Bookings</h2>
                             {% if specialist_bookings %}
                                 <div class="overflow-x-auto">
                                     <table class="table table-zebra">
@@ -181,8 +202,7 @@
                     </div>
                 </div>
 
-                <div class="lg:col-span-4">
-                    <div class="card bg-base-100 shadow-xl">
+                <div class="card bg-base-100 shadow-xl mt-4">
                         <div class="card-body">
                             <h2 class="card-title text-primary">Quick Actions</h2>
                             <div class="card-actions gap-3">
